@@ -17,16 +17,18 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        /* التصميم المطلوب للمصروفات */
-        .expense-card { background: #fff; padding: 15px; margin-bottom: 12px; border-radius: 15px; border: 1px solid #eee; border-right: 6px solid #d32f2f; position: relative; }
-        .exp-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-        .exp-title { font-weight: 900; font-size: 15px; text-align: right; }
-        .exp-amount-box { text-align: center; }
-        .exp-val { color: #d32f2f; font-weight: 900; font-size: 18px; display: block; }
-        .exp-sym { color: #d32f2f; font-weight: bold; font-size: 14px; margin-top: -5px; display: block; }
-        .exp-date-note { color: #777; font-size: 12px; text-align: right; margin-top: 2px; }
+        /* تصميم بطاقة المصروفات كما في الصورة */
+        .expense-card { background: #fff; padding: 15px; margin-bottom: 12px; border-radius: 15px; border: 1px solid #eee; border-right: 6px solid #d32f2f; }
+        .exp-main { display: flex; justify-content: space-between; align-items: center; }
+        .exp-right { flex: 1; }
+        .exp-type { font-weight: 900; font-size: 16px; margin-bottom: 4px; }
+        .exp-meta { color: #777; font-size: 12px; }
         
-        .delete-btn-bar { width: 100%; background: #ffefee; color: #d32f2f; padding: 8px; border-radius: 8px; border: none; font-weight: bold; font-size: 13px; cursor: pointer; margin-top: 5px; }
+        .exp-center { flex: 1; text-align: center; }
+        .exp-amount { color: #d32f2f; font-weight: 900; font-size: 20px; display: block; }
+        .exp-currency { color: #d32f2f; font-weight: bold; font-size: 14px; margin-top: -2px; display: block; }
+        
+        .delete-bar { width: 100%; background: #ffefee; color: #d32f2f; padding: 10px; border-radius: 8px; border: none; font-weight: bold; font-size: 13px; cursor: pointer; margin-top: 10px; }
 
         .owner-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #90caf9; }
         .summary-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; font-size: 13px; font-weight: bold;}
@@ -34,7 +36,7 @@
         
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: 900; font-size: 13px; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; background: #fff; }
         .btn-save { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; background: #1a73e8; color: white; cursor: pointer; }
         .month-box { width: 25px; height: 25px; border-radius: 5px; display: flex; justify-content: center; align-items: center; color: white; font-size: 11px; font-weight: bold; }
     </style>
@@ -68,20 +70,31 @@
             <div id="add-income" class="tab-content">
                 <h3>تۆماركرنا داهاتی</h3>
                 <div class="form-group"><label>کرێدار:</label><select id="incomeProperty"></select></div>
-                <div class="form-group"><label>بڕ:</label><div style="display:flex; gap:10px;"><input type="number" id="incomeAmount" style="flex:2"><select id="incomeCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select></div></div>
+                <div class="form-group"><label>بڕ:</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="number" id="incomeAmount" style="flex:2">
+                        <select id="incomeCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select>
+                    </div>
+                </div>
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="incomeDate"></div>
                 <button class="btn-save" onclick="addIncome()">تۆمار بکه</button>
             </div>
 
             <div id="add-expense" class="tab-content">
-                <h3>تۆماركرنا مەسرهەف:</h3>
+                <h3>تۆماركرنا مَسرهەف:</h3>
                 <div class="form-group"><label>جۆر:</label><select id="expenseType"><option value="حواله بۆ خودانى">حواله بۆ خودانى</option><option value="صيانة">صيانة</option><option value="یێن دى">یێن دى</option></select></div>
-                <div class="form-group"><label>بڕ:</label><div style="display:flex; gap:10px;"><input type="number" id="expenseAmount" style="flex:2"><select id="expenseCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select></div></div>
-                <div class="form-group"><label>تێبینی (ملاحظة):</label><input type="text" id="expenseNote" placeholder="بۆ نموونە: Fib دهوك"></div>
+                <div class="form-group"><label>بڕ:</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="number" id="expenseAmount" style="flex:2">
+                        <select id="expenseCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select>
+                    </div>
+                </div>
+                <div class="form-group"><label>تێبینی (ملاحظة):</label><input type="text" id="expenseNote" placeholder="مثلاً: Fib دهوك"></div>
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="expenseDate"></div>
                 <button class="btn-save" style="background:#d32f2f;" onclick="addExpense()">تۆمار بکه</button>
-                <h3 style="margin-top:25px; color:#d32f2f; font-size:14px;">مەسرهەفێن دوماهيێ:</h3>
-                <div id="recentExpenses"></div>
+                
+                <h3 style="margin-top:30px; color:#d32f2f; font-size:14px; border-bottom:1px solid #eee; padding-bottom:5px;">مەسرهەفێن دوماهيێ (أحدث المصروفات):</h3>
+                <div id="recentExpenses" style="margin-top:15px;"></div>
             </div>
 
             <div id="settings" class="tab-content">
@@ -164,17 +177,17 @@
                 let sym = ex.currency === 'USD' ? '$' : 'د.ع';
                 exH += `
                 <div class="expense-card">
-                    <div class="exp-top">
-                        <div class="expense-info">
-                            <div class="exp-title">${ex.type}</div>
-                            <div class="exp-date-note">${ex.date} | ${ex.note || ''}</div>
+                    <div class="exp-main">
+                        <div class="exp-right">
+                            <div class="exp-type">${ex.type}</div>
+                            <div class="exp-meta">${ex.date} | ${ex.note || ''}</div>
                         </div>
-                        <div class="exp-amount-box">
-                            <span class="exp-val">- ${ex.amount.toLocaleString()}</span>
-                            <span class="exp-sym">${sym}</span>
+                        <div class="exp-center">
+                            <span class="exp-amount">- ${ex.amount.toLocaleString()}</span>
+                            <span class="exp-currency">${sym}</span>
                         </div>
                     </div>
-                    <button class="delete-btn-bar" onclick="del(${ex.id},'expense')">ژێبرن</button>
+                    <button class="delete-bar" onclick="del(${ex.id},'expense')">ژێبرن</button>
                 </div>`;
             });
             document.getElementById('recentExpenses').innerHTML = exH;
@@ -184,7 +197,13 @@
         function backupData() { let blob = new Blob([JSON.stringify({data, tenants})], {type:"application/json"}); let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "Mulki_Backup.json"; a.click(); }
         function restoreData(e) { let reader = new FileReader(); reader.onload = (ev) => { let d = JSON.parse(ev.target.result); localStorage.setItem('propertyData', JSON.stringify(d.data)); localStorage.setItem('tenantList', JSON.stringify(d.tenants)); location.reload(); }; reader.readAsText(e.target.files[0]); }
         function exportImage() { html2canvas(document.getElementById('captureArea')).then(c => { let a=document.createElement('a'); a.download='report.png'; a.href=c.toDataURL(); a.click(); }); }
-        window.onload = () => { document.getElementById('incomeDate').value = new Date().toISOString().split('T')[0]; document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0]; updateUI(); };
+        
+        window.onload = () => { 
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('incomeDate').value = today; 
+            document.getElementById('expenseDate').value = today; 
+            updateUI(); 
+        };
     </script>
 </body>
 </html>
