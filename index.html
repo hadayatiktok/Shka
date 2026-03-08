@@ -17,14 +17,14 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        /* تصميم البطاقة المطلوب 1:15 */
+        /* تصميم البطاقة المطلوب (1:15) */
         .expense-card { background: #fff; padding: 15px; margin-bottom: 12px; border-radius: 15px; border: 1px solid #eee; border-right: 6px solid #d32f2f; }
         .exp-main { display: flex; justify-content: space-between; align-items: center; }
-        .exp-right { text-align: right; }
-        .exp-type { font-weight: 900; font-size: 16px; display: block; }
-        .exp-meta { color: #777; font-size: 12px; margin-top: 4px; }
+        .exp-right { text-align: right; flex: 1; }
+        .exp-type { font-weight: 900; font-size: 16px; color: #000; }
+        .exp-meta { color: #777; font-size: 12px; margin-top: 2px; }
         
-        .exp-center { flex: 1; text-align: center; padding: 0 10px; }
+        .exp-center { flex: 1; text-align: center; }
         .exp-amount { color: #d32f2f; font-weight: 900; font-size: 20px; display: block; }
         .exp-currency { color: #d32f2f; font-weight: bold; font-size: 14px; margin-top: -2px; display: block; }
         
@@ -38,12 +38,13 @@
         label { display: block; margin-bottom: 5px; font-weight: 900; font-size: 13px; }
         input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; background: #fff; }
         .btn-save { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; background: #1a73e8; color: white; cursor: pointer; }
+        .month-box { width: 25px; height: 25px; border-radius: 5px; display: flex; justify-content: center; align-items: center; color: white; font-size: 11px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h2>🏠 رێڤەبەريا مولكي</h2>
+            <h2 style="font-weight:900;">🏠 رێڤەبەريا مولكي</h2>
             <p style="font-size: 11px;">سيتەمێ رێكخستنا دارايي (البنك السحابي)</p>
         </div>
         <div class="tabs">
@@ -70,16 +71,16 @@
                 <h3>تۆماركرنا مَسرهەف:</h3>
                 <div class="form-group"><label>جۆر:</label><select id="expenseType"><option value="یێن دى">یێن دى</option><option value="حواله بۆ خودانى">حواله بۆ خودانى</option><option value="صيانة">صيانة</option></select></div>
                 <div class="form-group"><label>بڕ:</label><div style="display:flex; gap:10px;"><input type="number" id="expenseAmount" placeholder="0" style="flex:2"><select id="expenseCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select></div></div>
-                <div class="form-group"><label>تێبینی (ملاحظة):</label><input type="text" id="expenseNote" placeholder="مثلاً: Fib دهوك"></div>
+                <div class="form-group"><label>تێبینی (ملاحظة):</label><input type="text" id="expenseNote" placeholder="Fib دهوك"></div>
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="expenseDate"></div>
                 <button class="btn-save" style="background:#d32f2f;" onclick="addExpense()">تۆمار بکه</button>
-                <div id="recentExpenses" style="margin-top:15px;"></div>
+                <div id="recentExpenses" style="margin-top:20px;"></div>
             </div>
 
             <div id="add-income" class="tab-content">
                 <h3>تۆماركرنا داهاتی</h3>
                 <div class="form-group"><label>کرێدار:</label><select id="incomeProperty"></select></div>
-                <div class="form-group"><label>بڕ:</label><input type="number" id="incomeAmount"></div>
+                <div class="form-group"><label>بڕ:</label><div style="display:flex; gap:10px;"><input type="number" id="incomeAmount" placeholder="0" style="flex:2"><select id="incomeCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select></div></div>
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="incomeDate"></div>
                 <button class="btn-save" onclick="addIncome()">تۆمار بکه</button>
             </div>
@@ -88,12 +89,13 @@
                 <button onclick="backupData()" style="background:#ff9800; color:white; width:100%; border:none; padding:12px; border-radius:10px; font-weight:bold;">💾 حفظ نسخة احتياطية</button>
                 <input type="file" id="fileInput" style="display:none;" onchange="restoreData(event)">
                 <button onclick="document.getElementById('fileInput').click()" style="background:#f57c00; color:white; width:100%; border:none; padding:12px; border-radius:10px; font-weight:bold; margin-top:10px;">📂 استعادة البيانات</button>
+                <button onclick="if(confirm('Delete all?')){localStorage.clear();location.reload();}" style="background:#d32f2f; color:white; width:100%; border:none; padding:12px; border-radius:10px; font-weight:bold; margin-top:10px;">⚠️ مسح الكل</button>
             </div>
         </div>
     </div>
 
     <script>
-        let tenants = JSON.parse(localStorage.getItem('tenantList')) || [{id:'1',name:'شوقە 1',rent:'200,000 د.ع'},{id:'2',name:'شوقە 2',rent:'200,000 د.ع'}];
+        let tenants = JSON.parse(localStorage.getItem('tenantList')) || [{"id":"1","name":"شوقە 1 - ماهر","phone":"07828329689","rent":"200000"},{"id":"2","name":"شوقە 2 - جاسم","phone":"07510139556","rent":"200000"},{"id":"3","name":"شوقە 3 - فرهاد","phone":"07504872629","rent":"200000"},{"id":"4","name":"شوقە 4 - كاوة","phone":"07507233020","rent":"200000"},{"id":"5","name":"مەخزەن - ئەرشەد","phone":"07501317377","rent":"2200"}];
         let data = JSON.parse(localStorage.getItem('propertyData')) || {income:[], expense:[]};
 
         function showTab(e, id) {
@@ -108,15 +110,13 @@
             let a = parseFloat(document.getElementById('expenseAmount').value);
             let d = document.getElementById('expenseDate').value;
             let t = document.getElementById('expenseType').value;
-            let n = document.getElementById('expenseNote').value.trim(); // جلب النص بدقة
+            let n = document.getElementById('expenseNote').value.trim();
             let c = document.getElementById('expenseCurrency').value;
-            
-            if(isNaN(a) || !d) return alert('تکایە هەمی خانان پڕ بکە');
-            
-            data.expense.push({id:Date.now(), type:t, note:n, amount:a, currency:c, date:d});
+            if(isNaN(a) || !d) return alert('خانان پڕ بکە');
+            // حفظ باسم desc ليتوافق مع النسخة الاحتياطية
+            data.expense.push({id:Date.now(), type:t, desc:n, amount:a, currency:c, date:d});
             localStorage.setItem('propertyData', JSON.stringify(data));
-            updateUI();
-            alert('تۆمار بوو ✅');
+            updateUI(); alert('تۆمار بوو ✅');
             document.getElementById('expenseAmount').value = '';
             document.getElementById('expenseNote').value = '';
         }
@@ -125,11 +125,11 @@
             let a = parseFloat(document.getElementById('incomeAmount').value);
             let d = document.getElementById('incomeDate').value;
             let p = document.getElementById('incomeProperty').value;
+            let c = document.getElementById('incomeCurrency').value;
             if(isNaN(a) || !d) return alert('خانان پڕ بکە');
-            data.income.push({id:Date.now(), prop:p, amount:a, currency:'IQD', date:d});
+            data.income.push({id:Date.now(), prop:p, amount:a, currency:c, date:d});
             localStorage.setItem('propertyData', JSON.stringify(data));
-            updateUI();
-            alert('تم ✅');
+            updateUI(); alert('تم ✅');
         }
 
         function updateUI() {
@@ -149,21 +149,27 @@
 
             let h = '';
             tenants.forEach(p => {
-                h += `<div style="background:#fff; padding:12px; margin-bottom:10px; border-radius:12px; border:1px solid #eee; border-right:5px solid #1a73e8;"><b>${p.name}</b></div>`;
+                let mHtml = '<div style="display:flex; gap:2px; justify-content:flex-end; margin-top:5px;">';
+                for(let m=1; m<=12; m++) {
+                    let pay = data.income.find(inc => inc.prop===p.name && new Date(inc.date).getMonth()+1 === m);
+                    let col = pay ? (pay.amount===0 ? '#212121' : '#4caf50') : '#f44336';
+                    mHtml += `<div class="month-box" style="background:${col}">${m}</div>`;
+                }
+                h += `<div style="background:#fff; padding:12px; margin-bottom:10px; border-radius:12px; border:1px solid #eee; border-right:5px solid #1a73e8;"><b>${p.name}</b> <small style="float:left;">${p.rent > 5000 ? p.rent.toLocaleString() + ' IQD' : p.rent.toLocaleString() + ' $'}</small>${mHtml}</div></div>`;
             });
             document.getElementById('propertiesList').innerHTML = h;
 
             let exH = '';
-            data.expense.slice(-15).reverse().forEach(ex => {
+            data.expense.slice(-20).reverse().forEach(ex => {
                 let sym = ex.currency === 'USD' ? '$' : 'د.ع';
-                // التعديل الجوهري لعرض الملاحظة بالشكل الصحيح
-                let noteDisplay = ex.note ? `| ${ex.note}` : '';
+                // التعديل هنا لقراءة الملاحظات سواء كانت desc أو note
+                let noteDisplay = (ex.desc || ex.note || '').trim();
                 exH += `
                 <div class="expense-card">
                     <div class="exp-main">
                         <div class="exp-right">
                             <span class="exp-type">${ex.type}</span>
-                            <div class="exp-meta">${ex.date} ${noteDisplay}</div>
+                            <div class="exp-meta">${ex.date} ${noteDisplay ? '| ' + noteDisplay : ''}</div>
                         </div>
                         <div class="exp-center">
                             <span class="exp-amount">- ${ex.amount.toLocaleString()}</span>
@@ -184,6 +190,7 @@
         window.onload = () => { 
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('expenseDate').value = today;
+            document.getElementById('incomeDate').value = today;
             updateUI(); 
         };
     </script>
