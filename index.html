@@ -17,18 +17,18 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        /* تصميم البطاقة المطلوب (عرض الملاحظات) */
+        /* تصميم البطاقة المطلوب 1:15 */
         .expense-card { background: #fff; padding: 15px; margin-bottom: 12px; border-radius: 15px; border: 1px solid #eee; border-right: 6px solid #d32f2f; }
-        .exp-main { display: flex; justify-content: space-between; align-items: flex-start; }
-        .exp-right { flex: 1; text-align: right; }
-        .exp-type { font-weight: 900; font-size: 16px; color: #000; }
+        .exp-main { display: flex; justify-content: space-between; align-items: center; }
+        .exp-right { text-align: right; }
+        .exp-type { font-weight: 900; font-size: 16px; display: block; }
         .exp-meta { color: #777; font-size: 12px; margin-top: 4px; }
         
-        .exp-center { flex: 1; text-align: center; }
-        .exp-amount { color: #d32f2f; font-weight: 900; font-size: 22px; display: block; }
+        .exp-center { flex: 1; text-align: center; padding: 0 10px; }
+        .exp-amount { color: #d32f2f; font-weight: 900; font-size: 20px; display: block; }
         .exp-currency { color: #d32f2f; font-weight: bold; font-size: 14px; margin-top: -2px; display: block; }
         
-        .delete-bar { width: 100%; background: #ffefee; color: #d32f2f; padding: 10px; border-radius: 10px; border: none; font-weight: bold; font-size: 13px; cursor: pointer; margin-top: 10px; }
+        .delete-bar { width: 100%; background: #ffefee; color: #d32f2f; padding: 8px; border-radius: 8px; border: none; font-weight: bold; font-size: 13px; cursor: pointer; margin-top: 10px; }
 
         .owner-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #90caf9; }
         .summary-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; font-size: 13px; font-weight: bold;}
@@ -38,7 +38,6 @@
         label { display: block; margin-bottom: 5px; font-weight: 900; font-size: 13px; }
         input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; background: #fff; }
         .btn-save { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; background: #1a73e8; color: white; cursor: pointer; }
-        .month-box { width: 25px; height: 25px; border-radius: 5px; display: flex; justify-content: center; align-items: center; color: white; font-size: 11px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -68,19 +67,12 @@
             </div>
 
             <div id="add-expense" class="tab-content">
-                <h3 style="margin-bottom:15px;">تۆماركرنا مَسرهەف:</h3>
+                <h3>تۆماركرنا مَسرهەف:</h3>
                 <div class="form-group"><label>جۆر:</label><select id="expenseType"><option value="یێن دى">یێن دى</option><option value="حواله بۆ خودانى">حواله بۆ خودانى</option><option value="صيانة">صيانة</option></select></div>
-                <div class="form-group"><label>بڕ:</label>
-                    <div style="display:flex; gap:10px;">
-                        <input type="number" id="expenseAmount" placeholder="0" style="flex:2">
-                        <select id="expenseCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select>
-                    </div>
-                </div>
+                <div class="form-group"><label>بڕ:</label><div style="display:flex; gap:10px;"><input type="number" id="expenseAmount" placeholder="0" style="flex:2"><select id="expenseCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select></div></div>
                 <div class="form-group"><label>تێبینی (ملاحظة):</label><input type="text" id="expenseNote" placeholder="مثلاً: Fib دهوك"></div>
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="expenseDate"></div>
                 <button class="btn-save" style="background:#d32f2f;" onclick="addExpense()">تۆمار بکه</button>
-                
-                <h3 style="margin-top:30px; color:#d32f2f; font-size:14px; border-bottom:1px solid #eee; padding-bottom:5px;">مەسرهەفێن دوماهيێ:</h3>
                 <div id="recentExpenses" style="margin-top:15px;"></div>
             </div>
 
@@ -91,8 +83,11 @@
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="incomeDate"></div>
                 <button class="btn-save" onclick="addIncome()">تۆمار بکه</button>
             </div>
+            
             <div id="settings" class="tab-content">
                 <button onclick="backupData()" style="background:#ff9800; color:white; width:100%; border:none; padding:12px; border-radius:10px; font-weight:bold;">💾 حفظ نسخة احتياطية</button>
+                <input type="file" id="fileInput" style="display:none;" onchange="restoreData(event)">
+                <button onclick="document.getElementById('fileInput').click()" style="background:#f57c00; color:white; width:100%; border:none; padding:12px; border-radius:10px; font-weight:bold; margin-top:10px;">📂 استعادة البيانات</button>
             </div>
         </div>
     </div>
@@ -113,18 +108,28 @@
             let a = parseFloat(document.getElementById('expenseAmount').value);
             let d = document.getElementById('expenseDate').value;
             let t = document.getElementById('expenseType').value;
-            let n = document.getElementById('expenseNote').value; // جلب الملاحظة
+            let n = document.getElementById('expenseNote').value.trim(); // جلب النص بدقة
             let c = document.getElementById('expenseCurrency').value;
             
             if(isNaN(a) || !d) return alert('تکایە هەمی خانان پڕ بکە');
             
-            // حفظ الملاحظة داخل الكائن
             data.expense.push({id:Date.now(), type:t, note:n, amount:a, currency:c, date:d});
             localStorage.setItem('propertyData', JSON.stringify(data));
             updateUI();
             alert('تۆمار بوو ✅');
             document.getElementById('expenseAmount').value = '';
             document.getElementById('expenseNote').value = '';
+        }
+
+        function addIncome() {
+            let a = parseFloat(document.getElementById('incomeAmount').value);
+            let d = document.getElementById('incomeDate').value;
+            let p = document.getElementById('incomeProperty').value;
+            if(isNaN(a) || !d) return alert('خانان پڕ بکە');
+            data.income.push({id:Date.now(), prop:p, amount:a, currency:'IQD', date:d});
+            localStorage.setItem('propertyData', JSON.stringify(data));
+            updateUI();
+            alert('تم ✅');
         }
 
         function updateUI() {
@@ -148,16 +153,17 @@
             });
             document.getElementById('propertiesList').innerHTML = h;
 
-            // عرض الملاحظات في قائمة المصروفات
             let exH = '';
-            data.expense.slice(-20).reverse().forEach(ex => {
+            data.expense.slice(-15).reverse().forEach(ex => {
                 let sym = ex.currency === 'USD' ? '$' : 'د.ع';
+                // التعديل الجوهري لعرض الملاحظة بالشكل الصحيح
+                let noteDisplay = ex.note ? `| ${ex.note}` : '';
                 exH += `
                 <div class="expense-card">
                     <div class="exp-main">
                         <div class="exp-right">
-                            <div class="exp-type">${ex.type}</div>
-                            <div class="exp-meta">${ex.date} ${ex.note ? '| ' + ex.note : ''}</div>
+                            <span class="exp-type">${ex.type}</span>
+                            <div class="exp-meta">${ex.date} ${noteDisplay}</div>
                         </div>
                         <div class="exp-center">
                             <span class="exp-amount">- ${ex.amount.toLocaleString()}</span>
@@ -172,9 +178,14 @@
 
         function del(id, type) { if(confirm('ما تو پشت راستی؟')) { data[type] = data[type].filter(i=>i.id!==id); localStorage.setItem('propertyData', JSON.stringify(data)); updateUI(); } }
         function backupData() { let blob = new Blob([JSON.stringify({data, tenants})], {type:"application/json"}); let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "Mulki_Backup.json"; a.click(); }
+        function restoreData(e) { let reader = new FileReader(); reader.onload = (ev) => { let d = JSON.parse(ev.target.result); localStorage.setItem('propertyData', JSON.stringify(d.data)); localStorage.setItem('tenantList', JSON.stringify(d.tenants)); location.reload(); }; reader.readAsText(e.target.files[0]); }
         function exportImage() { html2canvas(document.getElementById('captureArea')).then(c => { let a=document.createElement('a'); a.download='report.png'; a.href=c.toDataURL(); a.click(); }); }
         
-        window.onload = () => { updateUI(); };
+        window.onload = () => { 
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('expenseDate').value = today;
+            updateUI(); 
+        };
     </script>
 </body>
 </html>
