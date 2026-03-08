@@ -17,32 +17,38 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
+        /* البطاقة الرئيسية */
         .owner-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #90caf9; }
-        .owner-header { color: #0d47a1; font-size: 15px; font-weight: 900; border-bottom: 2px solid #bbdefb; padding-bottom: 10px; margin-bottom: 15px; text-align: center; }
         .summary-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; font-size: 13px; font-weight: bold;}
         .summary-item.total { border-top: 2px dashed #90caf9; padding-top: 12px; font-weight: 900; color: #b71c1c; font-size: 15px; background: #ffcdd2; padding: 10px; border-radius: 8px; margin-top: 10px;}
         .amount-col { text-align: left; display: flex; flex-direction: column; gap: 4px; }
         
+        /* تصميم قائمة المستأجرين */
+        .tenant-card { background: #fff; padding: 15px; margin-bottom: 10px; border-radius: 12px; border: 1px solid #eee; border-right: 5px solid #1a73e8; }
+        .month-grid { display: flex; gap: 3px; justify-content: flex-end; margin-top: 8px; flex-wrap: wrap; direction: ltr; }
+        .month-box { width: 25px; height: 25px; border-radius: 5px; display: flex; justify-content: center; align-items: center; color: white; font-size: 11px; font-weight: bold; }
+
+        /* التصميم الجديد والمنظم للمصروفات */
+        .expense-card { background: #fff; padding: 12px 15px; margin-bottom: 10px; border-radius: 12px; border: 1px solid #eee; border-right: 5px solid #d32f2f; display: flex; align-items: center; justify-content: space-between; }
+        .expense-info { flex: 1; display: flex; flex-direction: column; }
+        .expense-info b { font-size: 14px; color: #333; }
+        .expense-info small { color: #777; font-size: 11px; margin-top: 2px; }
+        .expense-value { text-align: center; padding: 0 10px; color: #d32f2f; font-weight: 900; font-size: 14px; white-space: nowrap; }
+        .delete-btn { background: #ffefee; color: #d32f2f; padding: 8px; border-radius: 5px; cursor: pointer; border: none; font-weight: bold; font-size: 12px; line-height: 1; }
+
+        /* الحقول والأزرار */
         .form-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; }
         input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: #fff; }
         .flex-row { display: flex; gap: 10px; }
-        button { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 5px; }
-
-        /* اصلاح شكل قائمة المصروفات */
-        .item { background: #fff; padding: 15px; margin-bottom: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee; border-right: 5px solid #ccc; }
-        .exp-detail { display: flex; flex-direction: column; gap: 2px; }
-        .exp-amount { color: #d32f2f; font-weight: 900; font-size: 14px; }
-        .delete-btn { background: #ffefee; color: #d32f2f; padding: 6px 12px; font-size: 12px; border-radius: 8px; cursor: pointer; border: none; font-weight: bold;}
-        
-        .month-box { width: 25px; height: 25px; border-radius: 5px; display: flex; justify-content: center; align-items: center; color: white; font-size: 11px; font-weight: bold; }
+        .btn-save { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; background: #1a73e8; color: white; }
         .backup-section { background: #fff3e0; border: 2px solid #ffb74d; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h2>🏠 رێڤەبەريا مولكي</h2>
+            <h2 style="font-weight: 900;">🏠 رێڤەبەريا مولكي</h2>
             <p style="font-size: 12px;">سيتەمێ رێكخستنا دارايي (البنك السحابي)</p>
         </div>
         <div class="tabs">
@@ -55,32 +61,32 @@
             <div id="home" class="tab-content active">
                 <div id="captureArea">
                     <div class="owner-box">
-                        <div class="owner-header">📊 حسابێ گشتی</div>
+                        <div style="color: #0d47a1; font-size: 15px; font-weight: 900; border-bottom: 2px solid #bbdefb; padding-bottom: 10px; margin-bottom: 15px; text-align: center;">📊 حسابێ گشتی</div>
                         <div class="summary-item">
                             <span>1. کرێیا وەرگرتی (المستلم):</span>
                             <div class="amount-col">
-                                <span id="incIQD" style="color:#2e7d32; font-weight:bold;">0 د.ع</span>
-                                <span id="incUSD" style="color:#1565c0; font-weight:bold;">0 $</span>
+                                <span id="incIQD" style="color:#2e7d32;">0 د.ع</span>
+                                <span id="incUSD" style="color:#1565c0;">0 $</span>
                             </div>
                         </div>
                         <div class="summary-item">
                             <span>2. کۆما خەرجکرن (المصروفات):</span>
                             <div class="amount-col">
-                                <span id="expIQD" style="color:#d32f2f; font-weight:bold;">0 د.ع</span>
-                                <span id="expUSD" style="color:#d32f2f; font-weight:bold;">0 $</span>
+                                <span id="expIQD" style="color:#d32f2f;">0 د.ع</span>
+                                <span id="expUSD" style="color:#d32f2f;">0 $</span>
                             </div>
                         </div>
                         <div class="summary-item total">
                             <span>ماوە ل دەف تە (الباقي عندك):</span>
                             <div class="amount-col">
-                                <span id="balIQD" style="font-weight:900;">0 د.ع</span>
-                                <span id="balUSD" style="font-weight:900;">0 $</span>
+                                <span id="balIQD">0 د.ع</span>
+                                <span id="balUSD">0 $</span>
                             </div>
                         </div>
                     </div>
                     <div id="propertiesList"></div>
                 </div>
-                <button onclick="exportImage()" style="background:#9c27b0; color:white; margin-top:10px;">📷 داگرتنا وێنەیی</button>
+                <button onclick="exportImage()" style="background:#9c27b0; color:white; width:100%; padding:12px; border-radius:10px; margin-top:10px; font-weight:bold; border:none;">📷 داگرتنا وێنەیی</button>
             </div>
 
             <div id="add-income" class="tab-content">
@@ -98,7 +104,7 @@
 
             <div id="add-expense" class="tab-content">
                 <h3>تۆمارکرنا مەسرهەف</h3>
-                <div class="form-group"><label>جۆر:</label><select id="expenseType"><option value="حوالە بۆ خودانی">حوالە بۆ خودانی</option><option value="صيانة">صيانة / كارەب</option><option value="یێن دی">یێن دی</option></select></div>
+                <div class="form-group"><label>جۆر:</label><select id="expenseType"><option value="حوالە بۆ خوداني">حوالە بۆ خوداني</option><option value="صيانة">صيانة / كارەب</option><option value="یێن دی">یێن دی</option></select></div>
                 <div class="form-group"><label>بڕ:</label>
                     <div class="flex-row">
                         <input type="text" inputmode="numeric" id="expenseAmount" placeholder="0" style="flex:2">
@@ -108,17 +114,17 @@
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="expenseDate"></div>
                 <button class="btn-save" style="background:#d32f2f;" onclick="addExpense()">تۆمار بکە</button>
                 
-                <h3 style="margin-top:25px; font-size:14px; color:#d32f2f;">دوماهیک کارێن خەرجکرنێ:</h3>
+                <h3 style="margin-top:25px; font-size:14px; color:#d32f2f;">دوماهيک کارێن خەرجکرنێ:</h3>
                 <div id="recentExpenses" style="margin-top:10px;"></div>
             </div>
 
             <div id="settings" class="tab-content">
                 <div class="backup-section">
-                    <button onclick="backupData()" style="background:#ff9800; color:white;">💾 حفظ نسخة لـ iCloud</button>
+                    <button onclick="backupData()" style="background:#ff9800; color:white; width:100%; border:none; padding:12px; border-radius:8px; font-weight:bold;">💾 حفظ نسخة لـ iCloud</button>
                     <input type="file" id="fileInput" style="display:none;" onchange="restoreData(event)">
-                    <button onclick="document.getElementById('fileInput').click()" style="background:#f57c00; color:white; margin-top:10px;">📂 استعادة البيانات</button>
+                    <button onclick="document.getElementById('fileInput').click()" style="background:#f57c00; color:white; width:100%; border:none; padding:12px; border-radius:8px; font-weight:bold; margin-top:10px;">📂 استعادة البيانات</button>
                 </div>
-                <button onclick="if(confirm('Delete all?')) {localStorage.clear(); location.reload();}" style="background:#d32f2f; color:white; margin-top:20px;">⚠️ مسح البيانات نهائياً</button>
+                <button onclick="if(confirm('Delete all?')) {localStorage.clear(); location.reload();}" style="background:#d32f2f; color:white; width:100%; padding:12px; border-radius:8px; font-weight:bold; border:none; margin-top:20px;">⚠️ مسح البيانات نهائياً</button>
             </div>
         </div>
     </div>
@@ -149,6 +155,7 @@
             data.income.push({id:Date.now(), prop:p, amount:a, currency:c, date:d});
             localStorage.setItem('propertyData', JSON.stringify(data));
             updateUI(); alert('تم ✅');
+            document.getElementById('incomeAmount').value = '';
         }
 
         function addExpense() {
@@ -161,6 +168,7 @@
             data.expense.push({id:Date.now(), type:t, amount:a, currency:c, date:d});
             localStorage.setItem('propertyData', JSON.stringify(data));
             updateUI(); alert('تم ✅');
+            document.getElementById('expenseAmount').value = '';
         }
 
         function updateUI() {
@@ -178,32 +186,35 @@
 
             document.getElementById('incomeProperty').innerHTML = tenants.map(t=>`<option value="${t.name}">${t.name}</option>`).join('');
 
+            // قائمة العقارات
             let h = '';
             tenants.forEach(p => {
-                let mHtml = '<div style="display:flex; gap:2px; justify-content:flex-end; margin-top:5px;">';
+                let mHtml = '<div class="month-grid">';
                 for(let m=1; m<=12; m++) {
                     let pay = data.income.find(inc => inc.prop===p.name && new Date(inc.date).getMonth()+1 === m);
                     let col = pay ? (pay.amount===0 ? '#212121' : '#4caf50') : '#f44336';
                     mHtml += `<div class="month-box" style="background:${col}">${m}</div>`;
                 }
-                h += `<div class="item" style="flex-direction:column; align-items:start;"><div><b>${p.name}</b> <small>${p.rent}</small></div>${mHtml}</div>`;
+                mHtml += '</div>';
+                h += `<div class="tenant-card"><div><b>${p.name}</b> <small style="float:left;">${p.rent}</small></div>${mHtml}</div>`;
             });
             document.getElementById('propertiesList').innerHTML = h;
 
+            // قائمة المصروفات (التصميم الجديد المصلح)
             let exH = '';
             data.expense.slice(-10).reverse().forEach(ex => {
                 let sym = ex.currency === 'USD' ? '$' : 'د.ع';
                 exH += `
-                <div class="item">
-                    <div class="exp-detail">
+                <div class="expense-card">
+                    <div class="expense-info">
                         <b>${ex.type}</b>
                         <small>${ex.date}</small>
                     </div>
-                    <div class="exp-amount">-${ex.amount.toLocaleString()} ${sym}</div>
+                    <div class="expense-value">-${ex.amount.toLocaleString()} ${sym}</div>
                     <button class="delete-btn" onclick="del(${ex.id},'expense')">X</button>
                 </div>`;
             });
-            document.getElementById('recentExpenses').innerHTML = exH;
+            document.getElementById('recentExpenses').innerHTML = exH || '<p style="text-align:center; color:#888;">چ خەرجی نینە</p>';
         }
 
         function del(id, type) { 
@@ -224,18 +235,20 @@
             reader.onload = (ev) => {
                 try {
                     let d = JSON.parse(ev.target.result);
-                    localStorage.setItem('propertyData', JSON.stringify(d.data));
-                    localStorage.setItem('tenantList', JSON.stringify(d.tenants));
-                    alert('داتا ب سەرکەفتیانە ڤەگەڕیا! ✅');
-                    location.reload();
-                } catch(err) { alert('فایل خەلەتە ❌'); }
+                    if(d.data && d.tenants) {
+                        localStorage.setItem('propertyData', JSON.stringify(d.data));
+                        localStorage.setItem('tenantList', JSON.stringify(d.tenants));
+                        alert('داتا ب سەرکەفتیانە ڤەگەڕیا! ✅');
+                        location.reload();
+                    } else { alert('فایل خەلەتە ❌'); }
+                } catch(err) { alert('هەڵەیەک ڕوویدا ❌'); }
             }; 
             reader.readAsText(e.target.files[0]);
         }
 
         function exportImage() { 
             html2canvas(document.getElementById('captureArea')).then(c => { 
-                let a=document.createElement('a'); a.download='report.png'; a.href=c.toDataURL(); a.click(); 
+                let a=document.createElement('a'); a.download='Report_'+new Date().toLocaleDateString()+'.png'; a.href=c.toDataURL(); a.click(); 
             }); 
         }
 
