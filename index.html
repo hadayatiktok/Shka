@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>رێڤەبەریا مولكی</title>
+    <title>رێڤەبەریا مولكی - البنك السحابي</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -20,9 +20,9 @@
         .owner-header { color: #0d47a1; font-size: 15px; font-weight: 900; border-bottom: 2px solid #bbdefb; padding-bottom: 10px; margin-bottom: 15px; text-align: center; }
         .summary-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; font-size: 13px; font-weight: bold;}
         .summary-item.total { border-top: 2px dashed #90caf9; padding-top: 12px; font-weight: 900; color: #b71c1c; font-size: 15px; background: #ffcdd2; padding: 10px; border-radius: 8px; margin-top: 10px;}
-        .iqd-text { color: #2e7d32; font-weight: bold; font-size: 13px; }
-        .usd-text { color: #1565c0; font-weight: bold; font-size: 13px; }
-        .exp-text { color: #d32f2f; font-weight: bold; font-size: 13px; }
+        .amount-col { text-align: left; display: flex; flex-direction: column; gap: 4px; }
+        .iqd-text { color: #2e7d32; font-weight: bold; }
+        .usd-text { color: #1565c0; font-weight: bold; }
         .form-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; }
         input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: #fff; }
@@ -32,14 +32,14 @@
         .item { background: #fff; padding: 12px; margin-bottom: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee; border-right: 5px solid #ccc; }
         .month-box { width: 25px; height: 25px; border-radius: 5px; display: flex; justify-content: center; align-items: center; color: white; font-size: 11px; font-weight: bold; }
         .delete-btn { background: #ffefee; color: #d32f2f; padding: 4px 8px; font-size: 11px; border-radius: 5px; cursor: pointer; border: none;}
-        .backup-section { background: #fff3e0; border: 2px solid #ffb74d; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+        .backup-section { background: #fff3e0; border: 2px solid #ffb74d; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h2>🏠 رێڤەبەريا مولكي</h2>
-            <p style="font-size: 12px;">سيتەمێ رێكخستنا دارايي</p>
+            <p style="font-size: 12px;">سيتەمێ رێكخستنا دارايي (البنك السحابي)</p>
         </div>
         <div class="tabs">
             <button class="tab-btn active" onclick="showTab(event, 'home')">سەرەکی</button>
@@ -49,40 +49,70 @@
         </div>
         <div class="content">
             <div id="home" class="tab-content active">
-                <div class="owner-box">
-                    <div class="owner-header">📊 حسابێ گشتی</div>
-                    <div class="summary-item"><span>1. المستلم:</span><div style="text-align:left;"><span id="incIQD" class="iqd-text">0 د.ع</span><br><span id="incUSD" class="usd-text">0 $</span></div></div>
-                    <div class="summary-item"><span>2. المصروفات:</span><div style="text-align:left;"><span id="expIQD" class="exp-text">0 د.ع</span><br><span id="expUSD" class="exp-text">0 $</span></div></div>
-                    <div class="summary-item total"><span>الباقي عندك:</span><div style="text-align:left;"><span id="balIQD">0 د.ع</span><br><span id="balUSD">0 $</span></div></div>
+                <div id="captureArea">
+                    <div class="owner-box">
+                        <div class="owner-header">📊 حسابێ گشتی</div>
+                        <div class="summary-item">
+                            <span>1. کرێیا وەرگرتی (المستلم):</span>
+                            <div class="amount-col">
+                                <span id="incIQD" class="iqd-text">0 د.ع</span>
+                                <span id="incUSD" class="usd-text">0 $</span>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <span>2. کۆما خەرجکرن (المصروفات):</span>
+                            <div class="amount-col">
+                                <span id="expIQD" style="color:#d32f2f;">0 د.ع</span>
+                                <span id="expUSD" style="color:#d32f2f;">0 $</span>
+                            </div>
+                        </div>
+                        <div class="summary-item total">
+                            <span>ماوە ل دەف تە (الباقي عندك):</span>
+                            <div class="amount-col">
+                                <span id="balIQD">0 د.ع</span>
+                                <span id="balUSD">0 $</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="propertiesList"></div>
                 </div>
-                <div id="propertiesList"></div>
+                <button onclick="exportImage()" style="background:#9c27b0; color:white; margin-top:10px;">📷 داگرتنا وێنەیی</button>
             </div>
             <div id="add-income" class="tab-content">
                 <h3>تۆماركرنا داهاتی</h3>
-                <div class="form-group"><label>كرێدار:</label><select id="incomeProperty"></select></div>
-                <div class="form-group"><label>بڕ:</label><div class="flex-row"><input type="number" id="incomeAmount" placeholder="0" style="flex:2"><select id="incomeCurrency" style="flex:1"><option value="IQD">IQD</option><option value="USD">USD</option></select></div></div>
+                <div class="form-group"><label>کرێدار:</label><select id="incomeProperty"></select></div>
+                <div class="form-group"><label>کۆژمێ پارەی (0 بۆ لێخۆشبوون):</label>
+                    <div class="flex-row"><input type="text" inputmode="numeric" id="incomeAmount" placeholder="0" style="flex:2">
+                    <select id="incomeCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select></div>
+                </div>
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="incomeDate"></div>
-                <button class="btn-save" onclick="addIncome()">حفظ</button>
+                <button class="btn-save" onclick="addIncome()">خەزن بکە</button>
             </div>
             <div id="add-expense" class="tab-content">
-                <h3>تۆماركرنا مەسرهەف</h3>
-                <div class="form-group"><label>جۆر:</label><select id="expenseType"><option value="حوالە">حوالە</option><option value="صيانە">صيانة</option><option value="دی">أخرى</option></select></div>
-                <div class="form-group"><label>بڕ:</label><div class="flex-row"><input type="number" id="expenseAmount" placeholder="0" style="flex:2"><select id="expenseCurrency" style="flex:1"><option value="IQD">IQD</option><option value="USD">USD</option></select></div></div>
+                <h3>تۆمارکرنا مەسرهەف</h3>
+                <div class="form-group"><label>جۆر:</label><select id="expenseType"><option value="حوالە">حوالە بۆ خودانی</option><option value="صيانە">صيانة</option></select></div>
+                <div class="form-group"><label>بڕ:</label><div class="flex-row"><input type="text" inputmode="numeric" id="expenseAmount" placeholder="0" style="flex:2">
+                <select id="expenseCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select></div></div>
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="expenseDate"></div>
-                <button class="btn-save" style="background:#d32f2f;" onclick="addExpense()">حفظ المصروف</button>
+                <button class="btn-save" style="background:#d32f2f;" onclick="addExpense()">تۆمار بکە</button>
+                <div id="recentExpenses" style="margin-top:20px;"></div>
             </div>
             <div id="settings" class="tab-content">
                 <div class="backup-section">
-                    <button onclick="backupData()" style="background:#ff9800; color:white;">💾 حفظ نسخة احتياطية</button>
+                    <button onclick="backupData()" style="background:#ff9800; color:white;">💾 حفظ نسخة احتياطية للسحابة</button>
                     <input type="file" id="fileInput" style="display:none;" onchange="restoreData(event)">
                     <button onclick="document.getElementById('fileInput').click()" style="background:#f57c00; color:white; margin-top:10px;">📂 استعادة البيانات</button>
                 </div>
-                <button onclick="if(confirm('مسح الكل؟')) {localStorage.clear(); location.reload();}" style="background:#d32f2f; color:white;">⚠️ مسح جميع البيانات</button>
+                <button onclick="if(confirm('Delete all?')) {localStorage.clear(); location.reload();}" style="background:#d32f2f; color:white;">⚠️ مسح جميع البيانات</button>
             </div>
         </div>
     </div>
     <script>
-        let tenants = JSON.parse(localStorage.getItem('tenantList')) || [{id:'1',name:'شوقە 1',rent:'200000'},{id:'2',name:'شوقە 2',rent:'200000'},{id:'3',name:'شوقە 3',rent:'200000'}];
+        let tenants = JSON.parse(localStorage.getItem('tenantList')) || [
+            {id:'1',name:'شوقە 1 - ماهر',rent:'200000'},{id:'2',name:'شوقە 2 - جاسم',rent:'200000'},
+            {id:'3',name:'شوقە 3 - فرهاد',rent:'200000'},{id:'4',name:'شوقە 4 - كاوة',rent:'200000'},
+            {id:'5',name:'مەخزەن - ئەرشەد',rent:'2200'}
+        ];
         let data = JSON.parse(localStorage.getItem('propertyData')) || {income:[], expense:[]};
         function showTab(e, id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -92,21 +122,23 @@
             updateUI();
         }
         function addIncome() {
-            let a = parseFloat(document.getElementById('incomeAmount').value);
+            let val = document.getElementById('incomeAmount').value;
+            let a = parseFloat(val.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)));
             let d = document.getElementById('incomeDate').value;
             let p = document.getElementById('incomeProperty').value;
             let c = document.getElementById('incomeCurrency').value;
-            if(isNaN(a) || !d) return alert('خانان پڕ بکە');
+            if(val==='' || isNaN(a) || !d) return alert('خانان پڕ بکە');
             data.income.push({id:Date.now(), prop:p, amount:a, currency:c, date:d});
             localStorage.setItem('propertyData', JSON.stringify(data));
             updateUI(); alert('تم ✅');
         }
         function addExpense() {
-            let a = parseFloat(document.getElementById('expenseAmount').value);
+            let val = document.getElementById('expenseAmount').value;
+            let a = parseFloat(val.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)));
             let d = document.getElementById('expenseDate').value;
             let t = document.getElementById('expenseType').value;
             let c = document.getElementById('expenseCurrency').value;
-            if(isNaN(a) || !d) return alert('خانان پڕ بکە');
+            if(val==='' || isNaN(a) || !d) return alert('خانان پڕ بکە');
             data.expense.push({id:Date.now(), type:t, amount:a, currency:c, date:d});
             localStorage.setItem('propertyData', JSON.stringify(data));
             updateUI(); alert('تم ✅');
@@ -116,28 +148,47 @@
             const incUSD = data.income.filter(i=>i.currency==='USD').reduce((s,i)=>s+i.amount,0);
             const expIQD = data.expense.filter(e=>e.currency==='IQD').reduce((s,e)=>s+e.amount,0);
             const expUSD = data.expense.filter(e=>e.currency==='USD').reduce((s,e)=>s+e.amount,0);
-            document.getElementById('incIQD').innerText = incIQD.toLocaleString() + ' IQD';
+            document.getElementById('incIQD').innerText = incIQD.toLocaleString() + ' د.ع';
             document.getElementById('incUSD').innerText = incUSD.toLocaleString() + ' $';
-            document.getElementById('expIQD').innerText = expIQD.toLocaleString() + ' IQD';
+            document.getElementById('expIQD').innerText = expIQD.toLocaleString() + ' د.ع';
             document.getElementById('expUSD').innerText = expUSD.toLocaleString() + ' $';
-            document.getElementById('balIQD').innerText = (incIQD-expIQD).toLocaleString() + ' IQD';
+            document.getElementById('balIQD').innerText = (incIQD-expIQD).toLocaleString() + ' د.ع';
             document.getElementById('balUSD').innerText = (incUSD-expUSD).toLocaleString() + ' $';
             document.getElementById('incomeProperty').innerHTML = tenants.map(t=>`<option value="${t.name}">${t.name}</option>`).join('');
             let h = '';
             tenants.forEach(p => {
-                h += `<div class="item"><b>${p.name}</b><span>${p.rent}</span></div>`;
+                let mHtml = '<div style="display:flex; gap:2px; justify-content:flex-end; margin-top:5px;">';
+                for(let m=1; m<=12; m++) {
+                    let pay = data.income.find(inc => inc.prop===p.name && new Date(inc.date).getMonth()+1 === m);
+                    let col = pay ? (pay.amount===0 ? '#212121' : '#4caf50') : '#f44336';
+                    mHtml += `<div class="month-box" style="background:${col}">${m}</div>`;
+                }
+                h += `<div class="item" style="flex-direction:column; align-items:start;"><b>${p.name}</b>${mHtml}</div></div>`;
             });
             document.getElementById('propertiesList').innerHTML = h;
+            let exH = '';
+            data.expense.slice(-5).reverse().forEach(ex => {
+                exH += `<div class="item"><span>${ex.type}</span><b>- ${ex.amount.toLocaleString()}</b><button class="delete-btn" onclick="del(${ex.id},'expense')">X</button></div>`;
+            });
+            document.getElementById('recentExpenses').innerHTML = exH;
         }
+        function del(id, type) { data[type] = data[type].filter(i=>i.id!==id); localStorage.setItem('propertyData', JSON.stringify(data)); updateUI(); }
         function backupData() {
             let blob = new Blob([JSON.stringify({data, tenants})], {type:"application/json"});
-            let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "backup.json"; a.click();
+            let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "Mulki_Backup.json"; a.click();
         }
-        window.onload = () => {
-            document.getElementById('incomeDate').value = new Date().toISOString().split('T')[0];
-            document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0];
-            updateUI();
-        };
+        function restoreData(e) {
+            let reader = new FileReader();
+            reader.onload = (ev) => {
+                let d = JSON.parse(ev.target.result);
+                localStorage.setItem('propertyData', JSON.stringify(d.data));
+                localStorage.setItem('tenantList', JSON.stringify(d.tenants));
+                location.reload();
+            };
+            reader.readAsText(e.target.files[0]);
+        }
+        function exportImage() { html2canvas(document.getElementById('captureArea')).then(c => { let a=document.createElement('a'); a.download='report.png'; a.href=c.toDataURL(); a.click(); }); }
+        window.onload = () => { document.getElementById('incomeDate').value = new Date().toISOString().split('T')[0]; updateUI(); };
     </script>
 </body>
 </html>
