@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>رێڤەبەریا مولكی - بنکێ سحاباتی</title>
+    <title>رێڤەبەریا مولكی - البنك السحابي</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -16,22 +16,26 @@
         .content { padding: 20px; min-height: 400px; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        
         .owner-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #90caf9; }
         .owner-header { color: #0d47a1; font-size: 15px; font-weight: 900; border-bottom: 2px solid #bbdefb; padding-bottom: 10px; margin-bottom: 15px; text-align: center; }
         .summary-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; font-size: 13px; font-weight: bold;}
         .summary-item.total { border-top: 2px dashed #90caf9; padding-top: 12px; font-weight: 900; color: #b71c1c; font-size: 15px; background: #ffcdd2; padding: 10px; border-radius: 8px; margin-top: 10px;}
         .amount-col { text-align: left; display: flex; flex-direction: column; gap: 4px; }
-        .iqd-text { color: #2e7d32; font-weight: bold; }
-        .usd-text { color: #1565c0; font-weight: bold; }
+        
         .form-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: #fff; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: #fff; }
         .flex-row { display: flex; gap: 10px; }
         button { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 5px; }
-        .btn-save { background: #1a73e8; color: white; }
-        .item { background: #fff; padding: 12px; margin-bottom: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee; border-right: 5px solid #ccc; }
+
+        /* اصلاح شكل قائمة المصروفات */
+        .item { background: #fff; padding: 15px; margin-bottom: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee; border-right: 5px solid #ccc; }
+        .exp-detail { display: flex; flex-direction: column; gap: 2px; }
+        .exp-amount { color: #d32f2f; font-weight: 900; font-size: 14px; }
+        .delete-btn { background: #ffefee; color: #d32f2f; padding: 6px 12px; font-size: 12px; border-radius: 8px; cursor: pointer; border: none; font-weight: bold;}
+        
         .month-box { width: 25px; height: 25px; border-radius: 5px; display: flex; justify-content: center; align-items: center; color: white; font-size: 11px; font-weight: bold; }
-        .delete-btn { background: #ffefee; color: #d32f2f; padding: 4px 8px; font-size: 11px; border-radius: 5px; cursor: pointer; border: none;}
         .backup-section { background: #fff3e0; border: 2px solid #ffb74d; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center; }
     </style>
 </head>
@@ -55,52 +59,57 @@
                         <div class="summary-item">
                             <span>1. کرێیا وەرگرتی (المستلم):</span>
                             <div class="amount-col">
-                                <span id="incIQD" class="iqd-text">0 د.ع</span>
-                                <span id="incUSD" class="usd-text">0 $</span>
+                                <span id="incIQD" style="color:#2e7d32; font-weight:bold;">0 د.ع</span>
+                                <span id="incUSD" style="color:#1565c0; font-weight:bold;">0 $</span>
                             </div>
                         </div>
                         <div class="summary-item">
                             <span>2. کۆما خەرجکرن (المصروفات):</span>
                             <div class="amount-col">
-                                <span id="expIQD" style="color:#d32f2f;">0 د.ع</span>
-                                <span id="expUSD" style="color:#d32f2f;">0 $</span>
+                                <span id="expIQD" style="color:#d32f2f; font-weight:bold;">0 د.ع</span>
+                                <span id="expUSD" style="color:#d32f2f; font-weight:bold;">0 $</span>
                             </div>
                         </div>
                         <div class="summary-item total">
                             <span>ماوە ل دەف تە (الباقي عندك):</span>
                             <div class="amount-col">
-                                <span id="balIQD">0 د.ع</span>
-                                <span id="balUSD">0 $</span>
+                                <span id="balIQD" style="font-weight:900;">0 د.ع</span>
+                                <span id="balUSD" style="font-weight:900;">0 $</span>
                             </div>
                         </div>
                     </div>
                     <div id="propertiesList"></div>
                 </div>
-                <div style="display:flex; gap:10px;">
-                    <button onclick="exportImage()" style="background:#9c27b0; color:white; flex:1;">📷 داگرتنا وێنەیی</button>
-                    <button onclick="exportCSV()" style="background:#2e7d32; color:white; flex:1;">📊 ئێکسێل (Excel)</button>
-                </div>
+                <button onclick="exportImage()" style="background:#9c27b0; color:white; margin-top:10px;">📷 داگرتنا وێنەیی</button>
             </div>
-            
+
             <div id="add-income" class="tab-content">
-                <h3>تۆماركرنا داهاتی (0 بۆ لێخۆشبوون)</h3>
+                <h3>تۆماركرنا داهاتی</h3>
                 <div class="form-group"><label>کرێدار:</label><select id="incomeProperty"></select></div>
-                <div class="form-group"><label>بڕ و دراڤ:</label>
-                    <div class="flex-row"><input type="text" inputmode="numeric" id="incomeAmount" placeholder="0" style="flex:2">
-                    <select id="incomeCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select></div>
+                <div class="form-group"><label>کۆژمێ پارەی:</label>
+                    <div class="flex-row">
+                        <input type="text" inputmode="numeric" id="incomeAmount" placeholder="0" style="flex:2">
+                        <select id="incomeCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select>
+                    </div>
                 </div>
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="incomeDate"></div>
                 <button class="btn-save" onclick="addIncome()">خەزن بکە</button>
             </div>
 
             <div id="add-expense" class="tab-content">
-                <h3>تۆماركرنا مەسرهەف (حوالە یان صيانة)</h3>
-                <div class="form-group"><label>جۆر:</label><select id="expenseType"><option value="حوالە">حوالە بۆ خودانی</option><option value="صيانە">صيانة / كارەب</option><option value="دی">أخرى</option></select></div>
-                <div class="form-group"><label>بڕ:</label><div class="flex-row"><input type="text" inputmode="numeric" id="expenseAmount" placeholder="0" style="flex:2">
-                <select id="expenseCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select></div></div>
+                <h3>تۆمارکرنا مەسرهەف</h3>
+                <div class="form-group"><label>جۆر:</label><select id="expenseType"><option value="حوالە بۆ خودانی">حوالە بۆ خودانی</option><option value="صيانة">صيانة / كارەب</option><option value="یێن دی">یێن دی</option></select></div>
+                <div class="form-group"><label>بڕ:</label>
+                    <div class="flex-row">
+                        <input type="text" inputmode="numeric" id="expenseAmount" placeholder="0" style="flex:2">
+                        <select id="expenseCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select>
+                    </div>
+                </div>
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="expenseDate"></div>
                 <button class="btn-save" style="background:#d32f2f;" onclick="addExpense()">تۆمار بکە</button>
-                <div id="recentExpenses" style="margin-top:20px;"></div>
+                
+                <h3 style="margin-top:25px; font-size:14px; color:#d32f2f;">دوماهیک کارێن خەرجکرنێ:</h3>
+                <div id="recentExpenses" style="margin-top:10px;"></div>
             </div>
 
             <div id="settings" class="tab-content">
@@ -109,11 +118,11 @@
                     <input type="file" id="fileInput" style="display:none;" onchange="restoreData(event)">
                     <button onclick="document.getElementById('fileInput').click()" style="background:#f57c00; color:white; margin-top:10px;">📂 استعادة البيانات</button>
                 </div>
-                <div id="tenantsControl"></div>
                 <button onclick="if(confirm('Delete all?')) {localStorage.clear(); location.reload();}" style="background:#d32f2f; color:white; margin-top:20px;">⚠️ مسح البيانات نهائياً</button>
             </div>
         </div>
     </div>
+
     <script>
         let tenants = JSON.parse(localStorage.getItem('tenantList')) || [
             {id:'1',name:'شوقە 1 - ماهر',rent:'200,000 د.ع'},{id:'2',name:'شوقە 2 - جاسم',rent:'200,000 د.ع'},
@@ -121,6 +130,7 @@
             {id:'5',name:'مەخزەن - ئەرشەد',rent:'1,800 $'}
         ];
         let data = JSON.parse(localStorage.getItem('propertyData')) || {income:[], expense:[]};
+
         function showTab(e, id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -128,6 +138,7 @@
             if(e) e.currentTarget.classList.add('active');
             updateUI();
         }
+
         function addIncome() {
             let val = document.getElementById('incomeAmount').value;
             let a = parseFloat(val.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)));
@@ -139,6 +150,7 @@
             localStorage.setItem('propertyData', JSON.stringify(data));
             updateUI(); alert('تم ✅');
         }
+
         function addExpense() {
             let val = document.getElementById('expenseAmount').value;
             let a = parseFloat(val.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)));
@@ -150,18 +162,22 @@
             localStorage.setItem('propertyData', JSON.stringify(data));
             updateUI(); alert('تم ✅');
         }
+
         function updateUI() {
             const incIQD = data.income.filter(i=>i.currency==='IQD').reduce((s,i)=>s+i.amount,0);
             const incUSD = data.income.filter(i=>i.currency==='USD').reduce((s,i)=>s+i.amount,0);
             const expIQD = data.expense.filter(e=>e.currency==='IQD').reduce((s,e)=>s+e.amount,0);
             const expUSD = data.expense.filter(e=>e.currency==='USD').reduce((s,e)=>s+e.amount,0);
+
             document.getElementById('incIQD').innerText = incIQD.toLocaleString() + ' د.ع';
             document.getElementById('incUSD').innerText = incUSD.toLocaleString() + ' $';
             document.getElementById('expIQD').innerText = expIQD.toLocaleString() + ' د.ع';
             document.getElementById('expUSD').innerText = expUSD.toLocaleString() + ' $';
             document.getElementById('balIQD').innerText = (incIQD-expIQD).toLocaleString() + ' د.ع';
             document.getElementById('balUSD').innerText = (incUSD-expUSD).toLocaleString() + ' $';
+
             document.getElementById('incomeProperty').innerHTML = tenants.map(t=>`<option value="${t.name}">${t.name}</option>`).join('');
+
             let h = '';
             tenants.forEach(p => {
                 let mHtml = '<div style="display:flex; gap:2px; justify-content:flex-end; margin-top:5px;">';
@@ -170,37 +186,63 @@
                     let col = pay ? (pay.amount===0 ? '#212121' : '#4caf50') : '#f44336';
                     mHtml += `<div class="month-box" style="background:${col}">${m}</div>`;
                 }
-                h += `<div class="item" style="flex-direction:column; align-items:start;"><div><b>${p.name}</b> <small>${p.rent}</small></div>${mHtml}</div></div>`;
+                h += `<div class="item" style="flex-direction:column; align-items:start;"><div><b>${p.name}</b> <small>${p.rent}</small></div>${mHtml}</div>`;
             });
             document.getElementById('propertiesList').innerHTML = h;
+
             let exH = '';
-            data.expense.slice(-5).reverse().forEach(ex => {
-                exH += `<div class="item"><span>${ex.type}</span><b>- ${ex.amount.toLocaleString()}</b><button class="delete-btn" onclick="del(${ex.id},'expense')">X</button></div>`;
+            data.expense.slice(-10).reverse().forEach(ex => {
+                let sym = ex.currency === 'USD' ? '$' : 'د.ع';
+                exH += `
+                <div class="item">
+                    <div class="exp-detail">
+                        <b>${ex.type}</b>
+                        <small>${ex.date}</small>
+                    </div>
+                    <div class="exp-amount">-${ex.amount.toLocaleString()} ${sym}</div>
+                    <button class="delete-btn" onclick="del(${ex.id},'expense')">X</button>
+                </div>`;
             });
             document.getElementById('recentExpenses').innerHTML = exH;
         }
-        function del(id, type) { data[type] = data[type].filter(i=>i.id!==id); localStorage.setItem('propertyData', JSON.stringify(data)); updateUI(); }
+
+        function del(id, type) { 
+            if(confirm('ما تو پشت راستی؟')) {
+                data[type] = data[type].filter(i=>i.id!==id); 
+                localStorage.setItem('propertyData', JSON.stringify(data)); 
+                updateUI(); 
+            }
+        }
+
         function backupData() {
             let blob = new Blob([JSON.stringify({data, tenants})], {type:"application/json"});
             let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "Mulki_Backup.json"; a.click();
         }
+
         function restoreData(e) {
-            let reader = new FileReader(); reader.onload = (ev) => {
-                let d = JSON.parse(ev.target.result);
-                localStorage.setItem('propertyData', JSON.stringify(d.data));
-                localStorage.setItem('tenantList', JSON.stringify(d.tenants));
-                location.reload();
-            }; reader.readAsText(e.target.files[0]);
+            let reader = new FileReader(); 
+            reader.onload = (ev) => {
+                try {
+                    let d = JSON.parse(ev.target.result);
+                    localStorage.setItem('propertyData', JSON.stringify(d.data));
+                    localStorage.setItem('tenantList', JSON.stringify(d.tenants));
+                    alert('داتا ب سەرکەفتیانە ڤەگەڕیا! ✅');
+                    location.reload();
+                } catch(err) { alert('فایل خەلەتە ❌'); }
+            }; 
+            reader.readAsText(e.target.files[0]);
         }
-        function exportImage() { html2canvas(document.getElementById('captureArea')).then(c => { let a=document.createElement('a'); a.download='report.png'; a.href=c.toDataURL(); a.click(); }); }
-        function exportCSV() {
-            let csv = "\uFEFFالنوع,الاسم,المبلغ,العملة,التاريخ\n";
-            data.income.forEach(i => csv += `داهاتی,${i.prop},${i.amount},${i.currency},${i.date}\n`);
-            data.expense.forEach(e => csv += `مەسرهەف,${e.type},${e.amount},${e.currency},${e.date}\n`);
-            let blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
-            let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "data.csv"; a.click();
+
+        function exportImage() { 
+            html2canvas(document.getElementById('captureArea')).then(c => { 
+                let a=document.createElement('a'); a.download='report.png'; a.href=c.toDataURL(); a.click(); 
+            }); 
         }
-        window.onload = () => { document.getElementById('incomeDate').value = new Date().toISOString().split('T')[0]; updateUI(); };
+
+        window.onload = () => { 
+            document.getElementById('incomeDate').value = new Date().toISOString().split('T')[0]; 
+            updateUI(); 
+        };
     </script>
 </body>
 </html>
