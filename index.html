@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>رێڤەبەریا مولكی</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; padding: 10px; color: #333; }
+        .container { max-width: 500px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #1a73e8, #0d47a1); color: white; padding: 25px 10px; text-align: center; }
+        .tabs { display: flex; background: #fff; border-bottom: 2px solid #eee; overflow-x: auto; }
+        .tab-btn { flex: 1; padding: 12px 2px; border: none; background: none; font-size: 13px; font-weight: bold; color: #777; border-bottom: 3px solid transparent; transition: 0.3s; white-space: nowrap; cursor: pointer; text-align: center; }
+        .tab-btn.active { color: #1a73e8; border-bottom-color: #1a73e8; }
+        .content { padding: 20px; min-height: 400px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .owner-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #90caf9; }
+        .owner-header { color: #0d47a1; font-size: 15px; font-weight: 900; border-bottom: 2px solid #bbdefb; padding-bottom: 10px; margin-bottom: 15px; text-align: center; }
+        .summary-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; font-size: 13px; font-weight: bold;}
+        .summary-item.total { border-top: 2px dashed #90caf9; padding-top: 12px; font-weight: 900; color: #b71c1c; font-size: 15px; background: #ffcdd2; padding: 10px; border-radius: 8px; margin-top: 10px;}
+        .iqd-text { color: #2e7d32; font-weight: bold; font-size: 13px; }
+        .usd-text { color: #1565c0; font-weight: bold; font-size: 13px; }
+        .exp-text { color: #d32f2f; font-weight: bold; font-size: 13px; }
+        .form-group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: #fff; }
+        .flex-row { display: flex; gap: 10px; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 5px; }
+        .btn-save { background: #1a73e8; color: white; }
+        .item { background: #fff; padding: 12px; margin-bottom: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee; border-right: 5px solid #ccc; }
+        .month-box { width: 25px; height: 25px; border-radius: 5px; display: flex; justify-content: center; align-items: center; color: white; font-size: 11px; font-weight: bold; }
+        .delete-btn { background: #ffefee; color: #d32f2f; padding: 4px 8px; font-size: 11px; border-radius: 5px; cursor: pointer; border: none;}
+        .backup-section { background: #fff3e0; border: 2px solid #ffb74d; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>🏠 رێڤەبەريا مولكي</h2>
+            <p style="font-size: 12px;">سيتەمێ رێكخستنا دارايي</p>
+        </div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(event, 'home')">سەرەکی</button>
+            <button class="tab-btn" onclick="showTab(event, 'add-income')">داهاتی</button>
+            <button class="tab-btn" onclick="showTab(event, 'add-expense')">مەسرهەف</button>
+            <button class="tab-btn" onclick="showTab(event, 'settings')">رێكخستن</button>
+        </div>
+        <div class="content">
+            <div id="home" class="tab-content active">
+                <div class="owner-box">
+                    <div class="owner-header">📊 حسابێ گشتی</div>
+                    <div class="summary-item"><span>1. المستلم:</span><div style="text-align:left;"><span id="incIQD" class="iqd-text">0 د.ع</span><br><span id="incUSD" class="usd-text">0 $</span></div></div>
+                    <div class="summary-item"><span>2. المصروفات:</span><div style="text-align:left;"><span id="expIQD" class="exp-text">0 د.ع</span><br><span id="expUSD" class="exp-text">0 $</span></div></div>
+                    <div class="summary-item total"><span>الباقي عندك:</span><div style="text-align:left;"><span id="balIQD">0 د.ع</span><br><span id="balUSD">0 $</span></div></div>
+                </div>
+                <div id="propertiesList"></div>
+            </div>
+            <div id="add-income" class="tab-content">
+                <h3>تۆماركرنا داهاتی</h3>
+                <div class="form-group"><label>كرێدار:</label><select id="incomeProperty"></select></div>
+                <div class="form-group"><label>بڕ:</label><div class="flex-row"><input type="number" id="incomeAmount" placeholder="0" style="flex:2"><select id="incomeCurrency" style="flex:1"><option value="IQD">IQD</option><option value="USD">USD</option></select></div></div>
+                <div class="form-group"><label>رێکەفت:</label><input type="date" id="incomeDate"></div>
+                <button class="btn-save" onclick="addIncome()">حفظ</button>
+            </div>
+            <div id="add-expense" class="tab-content">
+                <h3>تۆماركرنا مەسرهەف</h3>
+                <div class="form-group"><label>جۆر:</label><select id="expenseType"><option value="حوالە">حوالە</option><option value="صيانە">صيانة</option><option value="دی">أخرى</option></select></div>
+                <div class="form-group"><label>بڕ:</label><div class="flex-row"><input type="number" id="expenseAmount" placeholder="0" style="flex:2"><select id="expenseCurrency" style="flex:1"><option value="IQD">IQD</option><option value="USD">USD</option></select></div></div>
+                <div class="form-group"><label>رێکەفت:</label><input type="date" id="expenseDate"></div>
+                <button class="btn-save" style="background:#d32f2f;" onclick="addExpense()">حفظ المصروف</button>
+            </div>
+            <div id="settings" class="tab-content">
+                <div class="backup-section">
+                    <button onclick="backupData()" style="background:#ff9800; color:white;">💾 حفظ نسخة احتياطية</button>
+                    <input type="file" id="fileInput" style="display:none;" onchange="restoreData(event)">
+                    <button onclick="document.getElementById('fileInput').click()" style="background:#f57c00; color:white; margin-top:10px;">📂 استعادة البيانات</button>
+                </div>
+                <button onclick="if(confirm('مسح الكل؟')) {localStorage.clear(); location.reload();}" style="background:#d32f2f; color:white;">⚠️ مسح جميع البيانات</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let tenants = JSON.parse(localStorage.getItem('tenantList')) || [{id:'1',name:'شوقە 1',rent:'200000'},{id:'2',name:'شوقە 2',rent:'200000'},{id:'3',name:'شوقە 3',rent:'200000'}];
+        let data = JSON.parse(localStorage.getItem('propertyData')) || {income:[], expense:[]};
+        function showTab(e, id) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if(e) e.currentTarget.classList.add('active');
+            updateUI();
+        }
+        function addIncome() {
+            let a = parseFloat(document.getElementById('incomeAmount').value);
+            let d = document.getElementById('incomeDate').value;
+            let p = document.getElementById('incomeProperty').value;
+            let c = document.getElementById('incomeCurrency').value;
+            if(isNaN(a) || !d) return alert('خانان پڕ بکە');
+            data.income.push({id:Date.now(), prop:p, amount:a, currency:c, date:d});
+            localStorage.setItem('propertyData', JSON.stringify(data));
+            updateUI(); alert('تم ✅');
+        }
+        function addExpense() {
+            let a = parseFloat(document.getElementById('expenseAmount').value);
+            let d = document.getElementById('expenseDate').value;
+            let t = document.getElementById('expenseType').value;
+            let c = document.getElementById('expenseCurrency').value;
+            if(isNaN(a) || !d) return alert('خانان پڕ بکە');
+            data.expense.push({id:Date.now(), type:t, amount:a, currency:c, date:d});
+            localStorage.setItem('propertyData', JSON.stringify(data));
+            updateUI(); alert('تم ✅');
+        }
+        function updateUI() {
+            const incIQD = data.income.filter(i=>i.currency==='IQD').reduce((s,i)=>s+i.amount,0);
+            const incUSD = data.income.filter(i=>i.currency==='USD').reduce((s,i)=>s+i.amount,0);
+            const expIQD = data.expense.filter(e=>e.currency==='IQD').reduce((s,e)=>s+e.amount,0);
+            const expUSD = data.expense.filter(e=>e.currency==='USD').reduce((s,e)=>s+e.amount,0);
+            document.getElementById('incIQD').innerText = incIQD.toLocaleString() + ' IQD';
+            document.getElementById('incUSD').innerText = incUSD.toLocaleString() + ' $';
+            document.getElementById('expIQD').innerText = expIQD.toLocaleString() + ' IQD';
+            document.getElementById('expUSD').innerText = expUSD.toLocaleString() + ' $';
+            document.getElementById('balIQD').innerText = (incIQD-expIQD).toLocaleString() + ' IQD';
+            document.getElementById('balUSD').innerText = (incUSD-expUSD).toLocaleString() + ' $';
+            document.getElementById('incomeProperty').innerHTML = tenants.map(t=>`<option value="${t.name}">${t.name}</option>`).join('');
+            let h = '';
+            tenants.forEach(p => {
+                h += `<div class="item"><b>${p.name}</b><span>${p.rent}</span></div>`;
+            });
+            document.getElementById('propertiesList').innerHTML = h;
+        }
+        function backupData() {
+            let blob = new Blob([JSON.stringify({data, tenants})], {type:"application/json"});
+            let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "backup.json"; a.click();
+        }
+        window.onload = () => {
+            document.getElementById('incomeDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0];
+            updateUI();
+        };
+    </script>
+</body>
+</html>
