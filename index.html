@@ -10,48 +10,53 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; padding: 10px; color: #333; }
         .container { max-width: 500px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
         .header { background: linear-gradient(135deg, #1a73e8, #0d47a1); color: white; padding: 25px 10px; text-align: center; }
-        
         .tabs { display: flex; background: #fff; border-bottom: 2px solid #eee; overflow-x: auto; }
         .tab-btn { flex: 1; padding: 12px 2px; border: none; background: none; font-size: 13px; font-weight: bold; color: #777; border-bottom: 3px solid transparent; transition: 0.3s; white-space: nowrap; cursor: pointer; text-align: center; }
         .tab-btn.active { color: #1a73e8; border-bottom-color: #1a73e8; }
-        
         .content { padding: 20px; min-height: 400px; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        
+
+        /* الحسابات العامة */
         .owner-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #90caf9; }
         .summary-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; font-size: 13px; font-weight: bold;}
         .summary-item.total { border-top: 2px dashed #90caf9; padding-top: 12px; font-weight: 900; color: #b71c1c; font-size: 15px; background: #ffcdd2; padding: 10px; border-radius: 8px; margin-top: 10px;}
         
-        .form-group { margin-bottom: 12px; }
-        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: #fff; }
-        .flex-row { display: flex; gap: 10px; }
-        button { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 5px; }
-        
-        .btn-save { background: #1a73e8; color: white; }
-        .btn-img { background: #9c27b0; color: white; flex: 1; font-size: 13px;}
-        .btn-pdf { background: #ff9800; color: white; flex: 1; font-size: 13px;}
-        
-        .item-card { background: #fff; padding: 12px; margin-bottom: 10px; border-radius: 12px; border: 1px solid #eee; border-right: 5px solid #ccc; }
-        .tenant-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .month-grid { display: flex; flex-wrap: wrap; gap: 4px; direction: ltr; justify-content: flex-end; margin-top: 8px; }
-        .month-box { width: 25px; height: 25px; border-radius: 5px; display: flex; justify-content: center; align-items: center; color: white; font-size: 11px; font-weight: bold; }
-        
-        .expense-card { background: #fff; padding: 15px; margin-bottom: 12px; border-radius: 15px; border: 1px solid #eee; border-right: 6px solid #d32f2f; }
-        .exp-main { display: flex; justify-content: space-between; align-items: center; }
-        .exp-amount { color: #d32f2f; font-weight: 900; font-size: 20px; }
-        .delete-bar { width: 100%; background: #ffefee; color: #d32f2f; padding: 8px; border-radius: 8px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
-        
-        .tenant-edit-box { background: #f9f9f9; padding: 10px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #ddd; }
-        .legend { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; font-size: 11px; font-weight: bold; }
+        /* بطاقات الأشهر في الرئيسية */
+        .tenant-card { background:#fff; padding:12px; margin-bottom:12px; border-radius:12px; border:1px solid #eee; border-right:5px solid #1a73e8; }
+        .tenant-header { display:flex; justify-content:space-between; align-items:center; }
+        .month-grid { display:flex; gap:3px; justify-content:flex-end; margin-top:8px; flex-wrap:wrap; direction:ltr; }
+        .month-box { width:25px; height:25px; border-radius:5px; display:flex; justify-content:center; align-items:center; color:white; font-size:11px; font-weight:bold; }
+
+        /* الحقول */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 900; font-size: 13px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; background: #fff; }
+        .btn-save { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; background: #1a73e8; color: white; cursor: pointer; }
+
+        /* تصميم بطاقة المصروفات (1:15) */
+        .expense-card { background:#fff; padding:15px; margin-bottom:12px; border-radius:15px; border:1px solid #eee; border-right:6px solid #d32f2f; }
+        .exp-main { display:flex; justify-content:space-between; align-items:center; }
+        .exp-right { text-align:right; flex:1; }
+        .exp-type { font-weight:900; font-size:16px; color:#000; }
+        .exp-meta { color:#777; font-size:12px; margin-top:4px; }
+        .exp-left { text-align:center; padding-left:10px; }
+        .exp-amount { color:#d32f2f; font-weight:900; font-size:20px; display:block; }
+        .exp-currency { color:#d32f2f; font-weight:bold; font-size:14px; margin-top:-2px; display:block; }
+        .delete-bar { width:100%; background:#ffefee; color:#d32f2f; padding:10px; border-radius:10px; border:none; font-weight:bold; font-size:13px; cursor:pointer; margin-top:10px; }
+
+        /* تصميم بطاقة الإيرادات */
+        .income-card { background:#fff; padding:15px; margin-bottom:12px; border-radius:15px; border:1px solid #eee; border-right:6px solid #4caf50; }
+        .inc-amount { color:#2e7d32; font-weight:900; font-size:20px; display:block; }
+        .inc-currency { color:#2e7d32; font-weight:bold; font-size:14px; margin-top:-2px; display:block; }
+        .delete-bar-inc { width:100%; background:#e8f5e9; color:#2e7d32; padding:10px; border-radius:10px; border:none; font-weight:bold; font-size:13px; cursor:pointer; margin-top:10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h2 style="font-weight:900;">🏠 رێڤەبەریا مولكی</h2>
-            <p style="font-size: 12px;">سیتەمێ رێكخستنا دارايي</p>
+            <h2 style="font-weight:900;">🏠 رێڤەبەريا مولكي</h2>
+            <p style="font-size: 11px;">سيتەمێ رێكخستنا دارايي (البنك السحابي)</p>
         </div>
         
         <div class="tabs">
@@ -66,90 +71,58 @@
             <div id="home" class="tab-content active">
                 <div id="captureArea">
                     <div class="owner-box">
-                        <div style="color:#0d47a1; font-weight:900; text-align:center; margin-bottom:15px;">📊 حسابێ گشتی</div>
-                        <div class="summary-item">
-                            <span>1. كرێیا وەرگرتی (المستلم):</span>
-                            <div style="text-align:left;">
-                                <span id="incIQD" style="color:#2e7d32;">0 د.ع</span><br>
-                                <span id="incUSD" style="color:#1565c0;">0 $</span>
-                            </div>
-                        </div>
-                        <div class="summary-item">
-                            <span>2. كۆما مەسرهەفان (المصروفات):</span>
-                            <div style="text-align:left;">
-                                <span id="expIQD" style="color:#d32f2f;">0 د.ع</span><br>
-                                <span id="expUSD" style="color:#d32f2f;">0 $</span>
-                            </div>
-                        </div>
-                        <div class="summary-item total">
-                            <span>ماوە ل دەف تە (الباقي عندك):</span>
-                            <div style="text-align:left;">
-                                <span id="balIQD">0 د.ع</span><br>
-                                <span id="balUSD">0 $</span>
-                            </div>
-                        </div>
+                        <div style="color:#0d47a1; font-weight:900; text-align:center; margin-bottom:15px; border-bottom:1px solid #bbdefb; padding-bottom:5px;">📊 حسابێ گشتی</div>
+                        <div class="summary-item"><span>المستلم:</span><div style="text-align:left;"><span id="incIQD" style="color:#2e7d32;">0 د.ع</span><br><span id="incUSD" style="color:#1565c0;">0 $</span></div></div>
+                        <div class="summary-item"><span>المصروفات:</span><div style="text-align:left;"><span id="expIQD" style="color:#d32f2f;">0 د.ع</span><br><span id="expUSD" style="color:#d32f2f;">0 $</span></div></div>
+                        <div class="summary-item total"><span>الباقي عندك:</span><div style="text-align:left;"><span id="balIQD">0 د.ع</span><br><span id="balUSD">0 $</span></div></div>
                     </div>
-
-                    <div class="legend">
+                    
+                    <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px; font-size:11px; font-weight:bold;">
                         <div style="display:flex; align-items:center; gap:4px;"><div style="width:12px; height:12px; background:#4caf50; border-radius:3px;"></div> هاتیە دان</div>
                         <div style="display:flex; align-items:center; gap:4px;"><div style="width:12px; height:12px; background:#212121; border-radius:3px;"></div> لێخۆشبوون</div>
                         <div style="display:flex; align-items:center; gap:4px;"><div style="width:12px; height:12px; background:#f44336; border-radius:3px;"></div> نەهاتیە دان</div>
                     </div>
-                    <div id="tenantListHome"></div>
+
+                    <div id="propertiesList"></div>
                 </div>
-                <div style="display:flex; gap:10px; margin-top:15px;">
-                    <button class="btn-img" onclick="exportImage()">📷 داگرتنا وێنەیی</button>
-                    <button class="btn-pdf" onclick="window.print()">📄 داگرتنا PDF</button>
-                </div>
+                <button onclick="exportImage()" style="background:#9c27b0; color:white; width:100%; padding:12px; border-radius:12px; border:none; margin-top:10px; font-weight:bold;">📷 داگرتنا وێنەیی</button>
             </div>
 
             <div id="add-income" class="tab-content">
-                <h3>تۆماركرنا پارێ وەرگرتی</h3>
-                <p style="font-size:11px; color:#666; margin-bottom:10px;">* بۆ لێخۆشبوون (إعفاء)، ژمارە 0 بنڤیسە.</p>
-                <div class="form-group"><label>كرێدار:</label><select id="incomeProp"></select></div>
-                <div class="form-group">
-                    <label>كۆژمێ پارەی:</label>
-                    <div class="flex-row">
-                        <input type="number" id="incomeAmount" placeholder="0" style="flex:2">
-                        <select id="incomeCurr" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select>
-                    </div>
-                </div>
+                <h3 style="margin-bottom:15px;">تۆماركرنا داهاتی:</h3>
+                <p style="font-size:11px; color:#666; margin-bottom:10px;">* بۆ لێخۆشبوون، ژمارە 0 بنڤیسە.</p>
+                <div class="form-group"><label>کرێدار:</label><select id="incomeProperty"></select></div>
+                <div class="form-group"><label>بڕ:</label><div style="display:flex; gap:10px;"><input type="number" id="incomeAmount" placeholder="0" style="flex:2"><select id="incomeCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select></div></div>
                 <div class="form-group"><label>رێکەفت:</label><input type="date" id="incomeDate"></div>
-                <button class="btn-save" onclick="saveIncome()">خەزن بکە</button>
+                <button class="btn-save" onclick="addIncome()">تۆمار بکه</button>
             </div>
 
             <div id="add-expense" class="tab-content">
-                <h3>تۆماركرنا مَسرهەف:</h3>
-                <div class="form-group"><label>جۆر:</label><select id="expType"><option value="یێن دى">یێن دى</option><option value="حواله بۆ خودانى">حواله بۆ خودانى</option><option value="صيانة">صيانة</option></select></div>
-                <div class="form-group">
-                    <label>بڕ:</label>
-                    <div class="flex-row">
-                        <input type="number" id="expAmount" placeholder="0" style="flex:2">
-                        <select id="expCurr" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select>
-                    </div>
-                </div>
-                <div class="form-group"><label>تێبینی (ملاحظة):</label><input type="text" id="expNote" placeholder="بۆ نموونە: Fib دهوك"></div>
-                <div class="form-group"><label>رێکەفت:</label><input type="date" id="expDate"></div>
-                <button class="btn-save" style="background:#d32f2f;" onclick="saveExpense()">تۆمار بکە</button>
-                <h3 style="margin-top:25px; color:#d32f2f; font-size:14px;">مەسرهەفێن دوماهيێ:</h3>
-                <div id="recentExpList"></div>
+                <h3 style="margin-bottom:15px;">تۆماركرنا مَسرهەف:</h3>
+                <div class="form-group"><label>جۆر:</label><select id="expenseType"><option value="یێن دى">یێن دى</option><option value="حواله بۆ خودانى">حواله بۆ خودانى</option><option value="صيانة">صيانة</option></select></div>
+                <div class="form-group"><label>بڕ:</label><div style="display:flex; gap:10px;"><input type="number" id="expenseAmount" placeholder="0" style="flex:2"><select id="expenseCurrency" style="flex:1"><option value="IQD">د.ع</option><option value="USD">$</option></select></div></div>
+                <div class="form-group"><label>تێبینی (ملاحظة):</label><input type="text" id="expenseNote" placeholder="مثلاً: Fib دهوك"></div>
+                <div class="form-group"><label>رێکەفت:</label><input type="date" id="expenseDate"></div>
+                <button class="btn-save" style="background:#d32f2f;" onclick="addExpense()">تۆمار بکه</button>
+                <h3 style="margin-top:25px; color:#d32f2f; font-size:14px; border-bottom:1px solid #eee; padding-bottom:5px;">دوماهيک کارێن خەرجکرنێ:</h3>
+                <div id="recentExpenses"></div>
             </div>
 
             <div id="history" class="tab-content">
-                <h3>دوماهیک ۲۰ کار:</h3>
+                <h3 style="margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:5px;">هەمی کارێن دارایی:</h3>
                 <div id="historyList"></div>
             </div>
-
+            
             <div id="settings" class="tab-content">
                 <div style="background:#fff3e0; padding:15px; border-radius:15px; border:1px solid #ffb74d; margin-bottom:20px;">
                     <h3>☁️ پاراستنا داتایان</h3>
-                    <button onclick="backupData()" style="background:#ff9800; color:white; margin-top:10px;">💾 داگرتنا کۆپیەک (Backup)</button>
-                    <input type="file" id="restoreFile" style="display:none;" onchange="restoreData(event)">
-                    <button onclick="document.getElementById('restoreFile').click()" style="background:#f57c00; color:white; margin-top:10px;">📂 ڤەگەڕاندنا داتایان (Restore)</button>
+                    <button onclick="backupData()" style="background:#ff9800; color:white; width:100%; border:none; padding:12px; border-radius:10px; font-weight:bold; margin-top:10px;">💾 داگرتنا کۆپیەک (Backup)</button>
+                    <input type="file" id="fileInput" style="display:none;" onchange="restoreData(event)">
+                    <button onclick="document.getElementById('fileInput').click()" style="background:#f57c00; color:white; width:100%; border:none; padding:12px; border-radius:10px; font-weight:bold; margin-top:10px;">📂 ڤەگەڕاندنا داتایان (Restore)</button>
                 </div>
-                <h3>گوهۆڕینا ناڤێن کرێداران:</h3>
+                <h3 style="margin-bottom:10px;">گوهۆڕینا ناڤێن کرێداران:</h3>
                 <div id="tenantsEditList"></div>
-                <button onclick="clearData()" style="background:#d32f2f; color:white; margin-top:20px;">⚠️ ژێبرنا هەمی داتایان</button>
+                <button onclick="if(confirm('Delete all data?')){localStorage.clear();location.reload();}" style="background:#d32f2f; color:white; width:100%; border:none; padding:12px; border-radius:10px; font-weight:bold; margin-top:20px;">⚠️ ژێبرنا هەمی داتایان</button>
             </div>
         </div>
     </div>
@@ -172,34 +145,34 @@
             updateUI();
         }
 
-        function saveIncome() {
+        function addExpense() {
+            let a = parseFloat(document.getElementById('expenseAmount').value);
+            let d = document.getElementById('expenseDate').value;
+            let t = document.getElementById('expenseType').value;
+            let n = document.getElementById('expenseNote').value.trim();
+            let c = document.getElementById('expenseCurrency').value;
+            if(isNaN(a) || !d) return alert('تکایە هەمی خانان پڕ بکە');
+            data.expense.push({id:Date.now(), type:t, desc:n, amount:a, currency:c, date:d});
+            localStorage.setItem('propertyData', JSON.stringify(data));
+            updateUI(); alert('تۆمار بوو ✅');
+            document.getElementById('expenseAmount').value = '';
+            document.getElementById('expenseNote').value = '';
+        }
+
+        function addIncome() {
             let a = parseFloat(document.getElementById('incomeAmount').value);
             let d = document.getElementById('incomeDate').value;
-            let p = document.getElementById('incomeProp').value;
-            let c = document.getElementById('incomeCurr').value;
-            if(isNaN(a) || !d) return alert('پڕ بکە!');
+            let p = document.getElementById('incomeProperty').value;
+            let c = document.getElementById('incomeCurrency').value;
+            if(isNaN(a) || !d) return alert('تکایە هەمی خانان پڕ بکە');
             data.income.push({id:Date.now(), prop:p, amount:a, currency:c, date:d});
             localStorage.setItem('propertyData', JSON.stringify(data));
             updateUI(); alert('تۆمار بوو ✅');
             document.getElementById('incomeAmount').value = '';
         }
 
-        function saveExpense() {
-            let a = parseFloat(document.getElementById('expAmount').value);
-            let d = document.getElementById('expDate').value;
-            let t = document.getElementById('expType').value;
-            let n = document.getElementById('expNote').value;
-            let c = document.getElementById('expCurr').value;
-            if(isNaN(a) || !d) return alert('پڕ بکە!');
-            // Save as 'desc' for consistency with your backup file
-            data.expense.push({id:Date.now(), type:t, desc:n, amount:a, currency:c, date:d});
-            localStorage.setItem('propertyData', JSON.stringify(data));
-            updateUI(); alert('تۆمار بوو ✅');
-            document.getElementById('expAmount').value = '';
-            document.getElementById('expNote').value = '';
-        }
-
         function updateUI() {
+            // تحديث المجاميع
             const incIQD = data.income.filter(i=>i.currency==='IQD').reduce((s,i)=>s+i.amount,0);
             const incUSD = data.income.filter(i=>i.currency==='USD').reduce((s,i)=>s+i.amount,0);
             const expIQD = data.expense.filter(e=>e.currency==='IQD').reduce((s,e)=>s+e.amount,0);
@@ -212,8 +185,9 @@
             document.getElementById('balIQD').innerText = (incIQD-expIQD).toLocaleString() + ' د.ع';
             document.getElementById('balUSD').innerText = (incUSD-expUSD).toLocaleString() + ' $';
 
-            document.getElementById('incomeProp').innerHTML = tenants.map(t=>`<option value="${t.name}">${t.name}</option>`).join('');
+            document.getElementById('incomeProperty').innerHTML = tenants.map(t=>`<option value="${t.name}">${t.name}</option>`).join('');
 
+            // تحديث بطاقات الأشهر في الصفحة الرئيسية
             let homeH = '';
             tenants.forEach(p => {
                 let mH = '<div class="month-grid">';
@@ -224,48 +198,85 @@
                 }
                 mH += '</div>';
                 let rentD = p.rent > 10000 ? p.rent.toLocaleString() + ' د.ع' : p.rent.toLocaleString() + ' $';
-                homeH += `<div class="item-card" style="border-right-color:#1a73e8;">
-                    <div class="tenant-header"><b>${p.name}</b> <span>${rentD}</span></div>
-                    <small style="color:#666">${p.phone}</small>${mH}
+                homeH += `
+                <div class="tenant-card">
+                    <div class="tenant-header"><b>${p.name}</b> <span style="font-weight:bold;">${rentD}</span></div>
+                    <small style="color:#666">${p.phone || ''}</small>
+                    ${mH}
                 </div>`;
             });
-            document.getElementById('tenantListHome').innerHTML = homeH;
+            document.getElementById('propertiesList').innerHTML = homeH;
 
+            // تحديث المصروفات في صفحة المَسرهەف
             let exH = '';
-            data.expense.slice(-10).reverse().forEach(ex => {
-                let sym = ex.currency==='USD' ? '$' : 'د.ع';
-                let note = ex.desc || ex.note || '';
-                exH += `<div class="expense-card">
+            data.expense.slice(-15).reverse().forEach(ex => {
+                let sym = ex.currency === 'USD' ? '$' : 'د.ع';
+                let noteDisplay = (ex.desc || ex.note || '').trim();
+                exH += `
+                <div class="expense-card">
                     <div class="exp-main">
-                        <div><b>${ex.type}</b><br><small>${ex.date} ${note ? '| '+note : ''}</small></div>
-                        <div style="text-align:center;"><span class="exp-amount">-${ex.amount.toLocaleString()}</span><br><small style="color:#d32f2f; font-weight:bold;">${sym}</small></div>
+                        <div class="exp-right">
+                            <span class="exp-type">${ex.type}</span>
+                            <div class="exp-meta">${ex.date} ${noteDisplay ? '| ' + noteDisplay : ''}</div>
+                        </div>
+                        <div class="exp-left">
+                            <span class="exp-amount">- ${ex.amount.toLocaleString()}</span>
+                            <span class="exp-currency">${sym}</span>
+                        </div>
                     </div>
                     <button class="delete-bar" onclick="del(${ex.id},'expense')">ژێبرن</button>
                 </div>`;
             });
-            document.getElementById('recentExpList').innerHTML = exH;
+            document.getElementById('recentExpenses').innerHTML = exH;
 
+            // تحديث قسم ليستا كاران (الكل)
             let histH = '';
-            const all = [...data.income.map(i=>({...i,t:'inc'})), ...data.expense.map(e=>({...e,t:'exp'}))].sort((a,b)=>b.id-a.id);
-            all.slice(0, 20).forEach(item => {
-                const isInc = item.t==='inc';
-                let col = isInc ? (item.amount===0 ? '#212121' : '#4caf50') : '#f44336';
+            const all = [...data.income.map(i=>({...i,t:'inc'})), ...data.expense.map(e=>({...e,t:'exp'}))].sort((a,b)=>new Date(b.date) - new Date(a.date) || b.id-a.id);
+            all.slice(0, 40).forEach(item => {
                 let sym = item.currency==='USD' ? '$' : 'د.ع';
-                let amt = item.amount===0 ? 'لێخۆشبوون' : (isInc?'+':'-')+' '+item.amount.toLocaleString()+' '+sym;
-                histH += `<div class="item-card" style="border-right-color:${col}; display:flex; justify-content:space-between; align-items:center;">
-                    <div><b>${item.prop || item.type}</b><br><small>${item.date}</small></div>
-                    <div style="color:${col}; font-weight:bold;">${amt}</div>
-                    <button style="width:auto; padding:5px 10px; font-size:11px; background:#ffefee; color:#d32f2f;" onclick="del(${item.id},'${isInc?'income':'expense'}')">X</button>
-                </div>`;
+                if (item.t === 'exp') {
+                    let note = (item.desc || item.note || '').trim();
+                    histH += `
+                    <div class="expense-card">
+                        <div class="exp-main">
+                            <div class="exp-right">
+                                <span class="exp-type">${item.type}</span>
+                                <div class="exp-meta">${item.date} ${note ? '| '+note : ''}</div>
+                            </div>
+                            <div class="exp-left">
+                                <span class="exp-amount">- ${item.amount.toLocaleString()}</span>
+                                <span class="exp-currency">${sym}</span>
+                            </div>
+                        </div>
+                        <button class="delete-bar" onclick="del(${item.id},'expense')">ژێبرن</button>
+                    </div>`;
+                } else {
+                    let note = item.amount === 0 ? 'لێخۆشبوون' : '';
+                    histH += `
+                    <div class="income-card">
+                        <div class="exp-main">
+                            <div class="exp-right">
+                                <span class="exp-type">${item.prop}</span>
+                                <div class="exp-meta">${item.date} ${note ? '| '+note : ''}</div>
+                            </div>
+                            <div class="exp-left">
+                                <span class="inc-amount">+ ${item.amount.toLocaleString()}</span>
+                                <span class="inc-currency">${sym}</span>
+                            </div>
+                        </div>
+                        <button class="delete-bar-inc" onclick="del(${item.id},'income')">ژێبرن</button>
+                    </div>`;
+                }
             });
             document.getElementById('historyList').innerHTML = histH || '<p style="text-align:center;">چ نینە</p>';
 
+            // تحديث أسماء المستأجرين في الإعدادات
             document.getElementById('tenantsEditList').innerHTML = tenants.map((t,i) => `
-                <div class="tenant-edit-box">
-                    <label>ناڤ:</label><input type="text" id="tn_${i}" value="${t.name}">
-                    <label>تەلەفۆن:</label><input type="text" id="tp_${i}" value="${t.phone}">
-                    <label>کرێ:</label><input type="number" id="tr_${i}" value="${t.rent}">
-                    <button class="btn-save" onclick="updateTenant(${i})">باشکەفت بکە (Save)</button>
+                <div style="background:#f9f9f9; padding:10px; border-radius:10px; margin-bottom:10px; border:1px solid #ddd;">
+                    <label style="font-size:11px; color:#555;">ناڤ:</label><input type="text" id="tn_${i}" value="${t.name}" style="margin-bottom:5px;">
+                    <label style="font-size:11px; color:#555;">تەلەفۆن:</label><input type="text" id="tp_${i}" value="${t.phone || ''}" style="margin-bottom:5px;">
+                    <label style="font-size:11px; color:#555;">کرێ:</label><input type="number" id="tr_${i}" value="${t.rent}" style="margin-bottom:5px;">
+                    <button class="btn-save" onclick="updateTenant(${i})" style="padding:10px; font-size:14px;">پاشکەفت بکە (Save)</button>
                 </div>
             `).join('');
         }
@@ -273,21 +284,20 @@
         function updateTenant(i) {
             tenants[i].name = document.getElementById(`tn_${i}`).value;
             tenants[i].phone = document.getElementById(`tp_${i}`).value;
-            tenants[i].rent = parseFloat(document.getElementById(`tr_${i}`).value);
+            tenants[i].rent = parseFloat(document.getElementById(`tr_${i}`).value) || 0;
             localStorage.setItem('tenantList', JSON.stringify(tenants));
             alert('گوهۆڕین هاتنە پاشکەفت کرن! ✅'); updateUI();
         }
 
-        function del(id, type) { if(confirm('ما تو پشت راستی؟')) { data[type]=data[type].filter(i=>i.id!==id); localStorage.setItem('propertyData', JSON.stringify(data)); updateUI(); } }
+        function del(id, type) { if(confirm('ما تو پشت راستی؟')) { data[type] = data[type].filter(i=>i.id!==id); localStorage.setItem('propertyData', JSON.stringify(data)); updateUI(); } }
         function backupData() { let blob = new Blob([JSON.stringify({data, tenants})], {type:"application/json"}); let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "Mulki_Backup.json"; a.click(); }
         function restoreData(e) { let reader = new FileReader(); reader.onload = (ev) => { let d = JSON.parse(ev.target.result); localStorage.setItem('propertyData', JSON.stringify(d.data)); localStorage.setItem('tenantList', JSON.stringify(d.tenants)); location.reload(); }; reader.readAsText(e.target.files[0]); }
         function exportImage() { html2canvas(document.getElementById('captureArea')).then(c => { let a=document.createElement('a'); a.download='report.png'; a.href=c.toDataURL(); a.click(); }); }
-        function clearData() { if(confirm('Delete all?')) { localStorage.clear(); location.reload(); } }
-
+        
         window.onload = () => { 
             const today = new Date().toISOString().split('T')[0];
+            document.getElementById('expenseDate').value = today;
             document.getElementById('incomeDate').value = today;
-            document.getElementById('expDate').value = today;
             updateUI(); 
         };
     </script>
